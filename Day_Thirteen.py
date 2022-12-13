@@ -10,47 +10,23 @@ def parser():
     return result
 
 def compare(item_a, item_b):
-    #print(item_a, '\t', item_b)
     if isinstance(item_a, int) and isinstance(item_b, int):
-        if item_a == item_b: 
-            #print("Neutral: a equal to b")
-            return None
-        elif item_a > item_b:
-            #print("False: a more than b")
-            return False
-        else:
-            #print("True: a less than b")
-            return True
+        if item_a == item_b:  return None
+        return item_a < item_b
 
     elif isinstance(item_a, list) and isinstance(item_b, list):
         for index in range(len(item_a)):
-            if index + 1 > len(item_b):
-                #print("False: b out of items")
-                return False
             
-            temp_a = item_a[index]
-            temp_b = item_b[index]
-
-            check  = compare(temp_a, temp_b)
-            if check is not None:
-                return check
+            if index + 1 > len(item_b): return False
+            if (check := compare(item_a[index], item_b[index])) is not None: return check
         
-        if len(item_a) < len(item_b):
-            #print("True: a out of items")
-            return True
+        if len(item_a) < len(item_b): return True
 
     elif isinstance(item_a, list):
-        check = compare(item_a, [item_b])
-        if check is not None:
-            return check
+        if (check := compare(item_a, [item_b])) is not None: return check
     
     else:
-        check = compare([item_a], item_b)
-        if check is not None:
-            return check
-
-    #print("Neutral: values equal")
-            
+        if (check := compare([item_a], item_b)) is not None: return check
 
 def process(pairs):
     result = 0
